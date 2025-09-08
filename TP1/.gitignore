@@ -1,0 +1,19 @@
+# Dependency directories
+node_modules/
+
+# TypeScript build output
+dist/
+build/
+*.js
+*.js.map
+
+# IDE settings and project files
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Other files to ignore
+*.log
+npm-debug.log*
