@@ -1,43 +1,9 @@
-abstract class Animal {
-    protected nombre: string;
+import { Zorro } from "./Zorro";
+import { Pajaro } from "./Pajaro";
 
-    constructor(nombre: string) {
-        this.nombre = nombre;
-    }
+const zorro = new Zorro("Zorro1", "Tipo1");
+zorro.hacerSonido();
 
-    abstract hacerSonido(): void;
-}
-
-interface Volador {
-    volar(): void;
-}
-
-class Pajaro extends Animal implements Volador {
-    private especie: string;
-
-    constructor(nombre: string, especie: string) {
-        super(nombre);
-        this.especie = especie;
-    }
-
-    hacerSonido(): void {
-        console.log("El pajaro hace sonido");
-    }
-
-    volar(): void {
-        console.log("El pajaro vuela");
-    }
-}
-
-class Zorro extends Animal {
-    private especie: string;
-
-    constructor(nombre: string, especie: string) {
-        super(nombre);
-        this.especie = especie;
-    }
-
-    hacerSonido(): void {
-        console.log("El zorro hace sonido");
-    }
-}
+const pajaro = new Pajaro("Pajaro1", "Aguila");
+pajaro.hacerSonido();
+pajaro.volar();
