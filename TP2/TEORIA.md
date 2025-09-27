@@ -1,22 +1,25 @@
-Explique el ciclo Rojo → Verde → Refactor y por que es importante el tamaño de los pasos.
-Rojo: Es el que escribe un test que falla (define comportamiento).
-Verde: Implementa lo minimo para pasar el test.
-Refactor: Limpiar el codigo mantenimiento los tests en verde.
-Importancia del tamaño de los pasos: si son chicos, el feedback es rapido, se localizan errores facilmente y se evita sobre–ingenieria. Si los pasos son grandes, se pierde seguridad y claridad.
 
-Diferencie tests unitarios, de integracion y E2E en APIs.
-La difetencia entre el test unitarios, integracion y E2E es que los unitarios prueba funciones/clases asiladas, los integracion prueban interacciones entre modulos y los E2E prueban el sistema completo como lo usaria un usuario.
+1. Explique el ciclo Rojo → Verde → Refactor y por que es importante el tamaño de los pasos.
+   Rojo: Es el que escribe un test que falla (define comportamiento).
+   Verde: Implementa lo minimo para pasar el test.
+   Refactor: Limpiar el codigo mantenimiento los tests en verde.
+   Importancia del tamaño de los pasos: si son chicos, el feedback es rapido, se localizan errores facilmente y se evita sobre–ingenieria. Si los pasos son grandes, se pierde seguridad y claridad.
 
-Que es un doble de prueba? Defina mock, stub y spy y cuando conviene cada uno.
-Un doble de prueba (o test double) es un objeto o componente "falso" que se usa en un test para reemplazar a uno real.
-Stub: objeto que devuelve respuestas prefijadas.
-Mock: objeto con expectativas preconfiguradas que deben cumplirse.
-Spy: objeto que espia llamadas reales.
+2. Diferencie tests unitarios, de integracion y E2E en APIs.
+   La difetencia entre el test unitarios, integracion y E2E es que los unitarios prueba funciones/clases asiladas, los integracion prueban interacciones entre modulos y los E2E prueban el sistema completo como lo usaria un usuario.
+
+3. Que es un doble de prueba? Defina mock, stub y spy y cuando conviene cada uno.
+   Un doble de prueba (o test double) es un objeto o componente "falso" que se usa en un test para reemplazar a uno real.
+
+* Stub: objeto que devuelve respuestas prefijadas.
+* Mock: objeto con expectativas preconfiguradas que deben cumplirse.
+* Spy: objeto que espia llamadas reales.
+
 Usar stub cuando solo importa el que devuelve, mock cuando importa el como se llamo, y spy para inspeccionar efectos secundarios.
 
-Por que es util separar app de server? Muestre (en 8–10 lineas) un ejemplo minimo con makeApp() y un test de integracion con Supertest.
-Es util ya que permite testear la app sin levantar ningun puerto.
-ejemplo:
+4. Por que es util separar app de server? Muestre (en 8–10 lineas) un ejemplo minimo con makeApp() y un test de integracion con Supertest.
+   Es util ya que permite testear la app sin levantar ningun puerto.
+
 
 // app.js
 import express from "express";
@@ -39,41 +42,42 @@ test("GET /ping", async () => {
 });
 
 
-Zod: diferencia entre parse y safeParse. Donde usaria cada uno en una ruta Express y por que?
-parse: valida o lanza excepcion (throw) si falla.
-safeParse: devuelve { success, data/error } sin lanzar excepcion.
+5. Zod: diferencia entre parse y safeParse. Donde usaria cada uno en una ruta Express y por que?
+
+* parse: valida o lanza excepcion (throw) si falla.
+* safeParse: devuelve { success, data/error } sin lanzar excepcion.
+
 En middleware Express conviene safeParse (puedes devolver 400 sin romper el flujo).
 En logica interna/funciones se usa parse porque si falla es un bug critico.
 
-De dos ejemplos de reglas de dominio que deben probarse con tests unitarios (no solo validacion de entrada).
-En un carrito, no permitir comprar mas unidades que stock disponible.
-En una cuenta bancaria, no permitir transferir si saldo < monto.
+6. De dos ejemplos de reglas de dominio que deben probarse con tests unitarios (no solo validacion de entrada).
 
-Que malos olores suele haber en suites de tests? De 3 ejemplos (naming, duplicacion, asserts debiles, mocks fragiles, etc.).
-Malos olores en suites de tests
+* En un carrito, no permitir comprar mas unidades que stock disponible.
+* En una cuenta bancaria, no permitir transferir si saldo < monto.
 
-En los tests tambien aparecen "malos olores" que dificultan su mantenimiento:
+7. Que malos olores suele haber en suites de tests? De 3 ejemplos (naming, duplicacion, asserts debiles, mocks fragiles, etc.).
+   En los tests tambien aparecen "malos olores" que dificultan su mantenimiento:
 
-Naming pobre: tests con nombres genericos como test("funciona") no dicen que se esta probando. Es mejor describir escenario y resultado esperado.
+* Naming pobre: tests con nombres genericos como test("funciona") no dicen que se esta probando. Es mejor describir escenario y resultado esperado.
+* Duplicacion: repetir setups o datos en muchos tests vuelve la suite larga y dificil de mantener. Se soluciona con helpers o builders.
+* Asserts debiles: solo verificar status 200 o que "no tiro error" da falsa seguridad. Hay que chequear tambien los datos y efectos relevantes.
+* Mocks fragiles: abusar de mocks de dependencias hace que cambios internos rompan tests innecesariamente.
 
-Duplicacion: repetir setups o datos en muchos tests vuelve la suite larga y dificil de mantener. Se soluciona con helpers o builders.
+8. Como trazara criterios de aceptacion ↔ tests? Incluya un mini ejemplo de tabla con 2 filas.
 
-Asserts debiles: solo verificar status 200 o que "no tiro error" da falsa seguridad. Hay que chequear tambien los datos y efectos relevantes.
+| Criterio aceptacion                                       | Test asociado                                                              |
+| --------------------------------------------------------- | -------------------------------------------------------------------------- |
+| "El usuario puede loguearse con email y password validos" | Test E2E POST `/login` con credenciales correctas → 200 y token            |
+| "No se permite registrar dos usuarios con el mismo email" | Test unitario de `UserService.create()` que lanza error en email duplicado |
 
-Mocks fragiles: abusar de mocks de dependencias hace que cambios internos rompan tests innecesariamente.
+9. Por que no perseguir 100% de cobertura a toda costa? Mencione riesgos/limitaciones.
 
-Como trazara criterios de aceptacion ↔ tests? Incluya un mini ejemplo de tabla con 2 filas.
+* Incentiva tests triviales que no aportan valor.
+* Puede dar falsa sensacion de seguridad (no cubre todos los casos de negocio).
+* Hace que los tests sean fragiles y costosos de mantener.
 
-Criterio aceptacion	Test asociado
-"El usuario puede loguearse con email y password validos"	Test E2E POST /login con credenciales correctas → 200 y token
-"No se permite registrar dos usuarios con el mismo email"	Test unitario de UserService.create() que lanza error en email duplicado
+10. Defina y de un ejemplo de helper/builder para tests.
 
-Por que no perseguir 100% de cobertura a toda costa? Mencione riesgos/limitaciones.
-Incentiva tests triviales que no aportan valor.
-Puede dar falsa sensacion de seguridad (no cubre todos los casos de negocio).
-Hace que los tests sean fragiles y costosos de mantener.
-
-Defina y de un ejemplo de helper/builder para tests.
 
 // userBuilder.js
 export function buildUser(overrides = {}) {
@@ -88,3 +92,4 @@ export function buildUser(overrides = {}) {
 // test
 const user = buildUser({ email: "otro@mail.com" });
 expect(user.email).toBe("otro@mail.com");
+
