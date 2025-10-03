@@ -3,6 +3,8 @@ import { z } from "zod";
 export const orderSchema = z.object({
   size: z.enum(["S", "M", "L"]),
   toppings: z.array(z.string())
+    // le agrego min uno porque asi lo pide el tp
+    .min(1, "Debe tener al menos 1 topping")
     .max(5, "Máximo 5 toppings"),
   address: z.string()
     .min(10, "La dirección debe tener al menos 10 caracteres"),
@@ -12,7 +14,8 @@ export const createOrderSchema = orderSchema;
 
 export const orderIdParamSchema = z.object({
   id: z.string({
-    required_error: "El id es obligatorio",
+    // se cambio required_error por message
+    message: "El id es obligatorio",
   }),
 });
 
