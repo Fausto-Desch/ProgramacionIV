@@ -4,12 +4,11 @@ import { CreateOrderInput, OrderIdParam, OrderQuery,clientViewOrderSchema } from
 import z from "zod";
 
 const calculatePrice = (size: "S" | "M" | "L", toppings: string[]): number => {
-  const basePrice:number = size === "S" ? 10 : size === "M" ? 12 : 15
-  const toppingsPrice:number = toppings.length * 3
+  const basePrice: number = size === "S" ? 15000 : size === "M" ? 20000 : 25000
+  const toppingsPrice:number = toppings.length * 2500
   const price:number = basePrice + toppingsPrice
   return (price)
 }
-
 
 export const createOrder = (req: Request, res: Response) => {
   const data = req.body as CreateOrderInput;
