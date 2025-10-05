@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "build": "npx tsc --watch",
     "dev": "node --watch ./dist/index.js"
   },
@@ -16,6 +17,7 @@
     "@types/cors": "2.8.19",
     "@types/express": "5.0.3",
     "@types/node": "24.5.1",
+    "@vitest/coverage-v8": "^3.2.4",
     "@vitest/ui": "3.2.4",
     "typescript": "5.9.2",
     "vitest": "3.2.4"

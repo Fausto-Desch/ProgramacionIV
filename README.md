@@ -1,2 +1,2 @@
-# Programaci-n
-Univercisad: UTN
+# Programación
+Universidad: UTN

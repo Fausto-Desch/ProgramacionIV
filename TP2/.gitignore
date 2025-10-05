@@ -1,5 +1,6 @@
 # Dependency directories
 node_modules/
+coverage/
 
 # TypeScript build output
 dist/
