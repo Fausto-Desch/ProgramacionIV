@@ -27,6 +27,21 @@ POST : http://localhost:3000/orders/:id/cancel = Si existe orden con ese id, la 
 POST : http://localhost:3000/orders/:id/delivered = Si existe orden con ese id, la despacha.
 
 ---
+## Implementación del CRUD
+
+En esta parte del trabajo se desarrolló la lógica base del CRUD de pedidos y la definición de las validaciones de datos con Zod.  
+
+### Modelos
+Se creó la interfaz `IOrder` y la clase `Order` para representar los pedidos, junto con un arreglo en memoria (`orders[]`) que actúa como almacenamiento temporal.
+
+### Schemas (Zod)
+Se implementaron los esquemas de validación en `orders.schema.ts`, incluyendo:
+- `createOrderSchema`: valida el cuerpo del pedido al crearlo (`POST /orders`), controlando tamaño, cantidad de toppings y dirección.  
+- `orderIdParamSchema` y `orderQuerySchema`: validan parámetros y filtros (`GET /order/:id`, `GET /orders?status`).  
+- `clientViewOrderSchema`: representa el pedido completo que se devuelve al cliente (con `id`, `status` y `price`).
+
+Esta parte garantiza que todos los endpoints del CRUD reciban y devuelvan datos **coherentes, validados y consistentes** con las reglas del negocio, sirviendo como base para las pruebas unitarias e integraciones.
+
 
 ## Testing del proyecto
 Framework de testing utilizado: Vitest
