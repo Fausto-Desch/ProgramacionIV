@@ -11,8 +11,11 @@
 ## Endpoints del practico
 
 GET : http://localhost:3000/orders/:id = Devuelve, si existe, una orden con sus detalles.
+
 GET : http://localhost:3000/orders/?status = Devuelve, si existe, un arreglo con todas las ordenes que tienen ese status.
+
 POST : http://localhost:3000/orders = Crea una orden. Ej de prueba: 
+
 {
 "size": "L",
 "toppings": ["Queso", "Salsa", "Huevo"],
@@ -20,6 +23,7 @@ POST : http://localhost:3000/orders = Crea una orden. Ej de prueba:
 }
 
 POST : http://localhost:3000/orders/:id/cancel = Si existe orden con ese id, la cancela.
+
 POST : http://localhost:3000/orders/:id/delivered = Si existe orden con ese id, la despacha.
 
 ---
