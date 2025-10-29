@@ -8,7 +8,7 @@ function AppContent() {
   const { order, clear } = useOrder();
   const [message, setMessage] = useState('');
 
-  const sendOrder = async () => {
+  const enviarPedido = async () => {
     const res = await fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -28,7 +28,7 @@ function AppContent() {
       <h2>Tu pedido</h2>
       <Order />
       <Total />
-      <button onClick={sendOrder} disabled={order.length === 0}>
+      <button onClick={enviarPedido} disabled={order.length === 0}>
         Enviar pedido
       </button>
       {message && <p>{message}</p>}

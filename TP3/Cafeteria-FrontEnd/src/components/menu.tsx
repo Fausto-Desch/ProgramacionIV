@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { Productos } from '../types/Productos';
 import { useOrder } from '../context/OrdenContext';
+const BASE = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
 
 export const Menu = () => {
   const [menu, setMenu] = useState<Productos[]>([]);
@@ -8,8 +9,8 @@ export const Menu = () => {
   const { addItem } = useOrder();
 
   useEffect(() => {
-    fetch('/api/menu')
-      .then((res) => {
+  fetch(`${BASE}/api/menu`)
+    .then((res) => {
         if (!res.ok) throw new Error('Error al cargar menú');
         return res.json();
       })
