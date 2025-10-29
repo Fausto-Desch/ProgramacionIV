@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Productos } from '../types/Productos';
+import type { Productos } from '../types/Productos';
+import { useOrder } from '../context/OrdenContext';
 
 export const Menu = () => {
   const [menu, setMenu] = useState<Productos[]>([]);
   const [error, setError] = useState('');
+  const { addItem } = useOrder();
 
   useEffect(() => {
     fetch('/api/menu')
@@ -19,11 +21,11 @@ export const Menu = () => {
   if (menu.length === 0) return <p>Cargando...</p>;
 
   return (
-    <ul>
+    <ul role="list">
       {menu.map((p) => (
         <li key={p.id}>
           {p.name} - ${p.price}
-          <button>Agregar</button>
+          <button onClick={() => addItem(p)}>Agregar</button>
         </li>
       ))}
     </ul>

@@ -1,8 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import { OrderProvider } from '../context/OrdenContext';
 import { Menu } from '../components/menu';
-import {test, expect} from 'vitest';
+import { expect, test } from 'vitest';
 
-test('muestra productos del menú', async () => {
-  render(<Menu />);
+test('muestra productos del menú mockeado', async () => {
+  render(
+    <OrderProvider>
+      <Menu />
+    </OrderProvider>
+  );
   await waitFor(() => expect(screen.getByText('Café')).toBeInTheDocument());
 });

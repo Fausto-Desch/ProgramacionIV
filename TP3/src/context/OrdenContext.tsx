@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { Productos } from '../types/Productos';
+import type { Productos } from '../types/Productos';
 
 type OrderContextType = {
   order: Productos[];
