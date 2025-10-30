@@ -1,0 +1,102 @@
+:root {
+  --primary: #8b5e3c;
+  --secondary: #f5f1eb;
+  --accent: #c97b4b;
+  --text-dark: #3e2723;
+  --bg: #fffaf5;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", system-ui, sans-serif;
+  background-color: var(--bg);
+  color: var(--text-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.app-card {
+  background: white;
+  padding: 2rem 3rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.app-card:hover {
+  transform: scale(1.01);
+}
+
+.title {
+  font-size: 2.8rem;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  margin-top: 2rem;
+  color: var(--accent);
+  font-size: 1.5rem;
+}
+
+
+.menu-section, .order-section {
+  margin-bottom: 2rem;
+}
+
+
+.main-button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.main-button:hover {
+  background-color: var(--accent);
+  transform: scale(1.05);
+}
+
+.main-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.message {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+.small-button {
+ background-color: #b0b0b0;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.small-button:hover {
+  background-color: var(--accent);
+  transform: scale(1.05);
+}
