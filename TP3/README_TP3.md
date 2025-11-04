@@ -163,8 +163,3 @@ POST /api/orders
 ### ✔️ Manejo de estado con Context API  
 ### ✔️ Validaciones con Zod  
 ### ✔️ Ciclo Rojo → Verde → Refactor aplicado en cada HU  
-
----
-
-# 🧑‍💻 Autores
-- *[Completar con los nombres del grupo]*
