@@ -1,40 +1,18 @@
-// Configuración segura
-const multer = require('multer');
-const path = require('path');
-const crypto = require('crypto');
+const upload = require('../config/multer');
 
-const storage = multer.diskStorage({
-  destination: './uploads/',
-  filename: (req, file, cb) => {
-    // Generar nombre aleatorio
-    const uniqueName = crypto.randomBytes(16).toString('hex');
-    cb(null, uniqueName + path.extname(file.originalname));
+// VULNERABLE: File Upload sin validación
+const uploadFile = (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No se subió ningún archivo' });
   }
-});
-
-const uploadFile = multer({
-  storage: storage,
-  limits: {
-    fileSize: 5 * 1024 * 1024  // Límite: 5MB
-  },
-  fileFilter: (req, file, cb) => {
-    // Whitelist de extensiones
-    const allowedExts = ['.jpg', '.jpeg', '.png', '.pdf'];
-    const ext = path.extname(file.originalname).toLowerCase();
-
-    if (!allowedExts.includes(ext)) {
-      return cb(new Error('Tipo de archivo no permitido'));
-    }
-
-    // Validar MIME type
-    const allowedMimes = ['image/jpeg', 'image/png', 'application/pdf'];
-    if (!allowedMimes.includes(file.mimetype)) {
-      return cb(new Error('MIME type no permitido'));
-    }
-
-    cb(null, true);
-  }
-});
+  
+  // VULNERABLE: No valida tipo de archivo ni contenido
+  res.json({ 
+    message: 'Archivo subido con éxito',
+    filename: req.file.filename,
+    path: `/uploads/${req.file.filename}`
+  });
+};
 
 module.exports = {
   uploadFile,
