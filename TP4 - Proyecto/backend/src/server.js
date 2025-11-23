@@ -9,6 +9,7 @@ const path = require('path');
 const { connectWithRetry } = require('./config/database');
 const { initializeFiles } = require('./utils/fileInit');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
+const { forceSameSiteCookie, csrfErrorHandler } = require('./middleware/csrf');
 
 // Importar rutas
 const routes = require('./routes');
@@ -24,16 +25,28 @@ app.use(express.urlencoded({ extended: true }));
 // Servir archivos estáticos (uploads)
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// Session para CSRF (vulnerable - sin token CSRF)
+// Session para CSRF con configuración segura
 app.use(session({
   secret: 'vulnerable-secret',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
+  saveUninitialized: false,
+  name: 'connect.sid',
+  cookie: { 
+    secure: false,
+    httpOnly: true,
+    sameSite: 'strict',
+    maxAge: 3600000
+  }
 }));
+
+// Middleware para forzar SameSite en cookies
+app.use(forceSameSiteCookie);
 
 // Usar todas las rutas con prefijo /api
 app.use('/api', routes);
+
+// Middleware de manejo de errores CSRF
+app.use(csrfErrorHandler);
 
 // Middleware de manejo de errores
 app.use(notFound);
