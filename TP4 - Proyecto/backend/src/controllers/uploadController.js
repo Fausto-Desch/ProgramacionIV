@@ -1,20 +1,35 @@
-const upload = require('../config/multer');
+const fs = require("fs");
+const fileType = require("file-type");
 
-// VULNERABLE: File Upload sin validación
-const uploadFile = (req, res) => {
+exports.uploadFile = async (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ error: 'No se subió ningún archivo' });
+    return res.status(400).json({ error: "No file uploaded" });
   }
-  
-  // VULNERABLE: No valida tipo de archivo ni contenido
-  res.json({ 
-    message: 'Archivo subido con éxito',
-    filename: req.file.filename,
-    path: `/uploads/${req.file.filename}`
-  });
-};
 
-module.exports = {
-  uploadFile,
-  uploadMiddleware: upload.single('file')
+  try {
+    const buffer = fs.readFileSync(req.file.path);
+    const detected = await fileType.fromBuffer(buffer);
+
+    const allowedMimes = [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "text/plain",
+      "application/pdf"
+    ];
+
+    if (!detected || !allowedMimes.includes(detected.mime)) {
+      fs.unlinkSync(req.file.path);
+      return res.status(400).json({ error: "Invalid file content" });
+    }
+
+    fs.chmodSync(req.file.path, 0o644);
+
+    return res.status(200).json({
+      message: "File uploaded successfully",
+      filename: req.file.filename
+    });
+  } catch (err) {
+    return res.status(500).json({ error: "Unexpected upload error" });
+  }
 };
