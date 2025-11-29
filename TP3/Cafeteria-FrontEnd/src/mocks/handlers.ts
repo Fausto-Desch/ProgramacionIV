@@ -1,10 +1,10 @@
 import { http, HttpResponse } from 'msw';
 
 export const handlers = [
-  http.get('/api/menu', () => {
+  http.get('http://localhost:4000/api/menu', () => {
     return HttpResponse.json([
-      { id: '1', name: 'Cafe', price: 500 },
-      { id: '2', name: 'Te', price: 400 },
+      { id: '1', name: 'Café', price: 500 },
+      { id: '2', name: 'Té', price: 400 },
       { id: '3', name: 'Medialuna', price: 300 },
     ]);
   }),
