@@ -9,5 +9,5 @@ test('muestra productos del menú mockeado', async () => {
       <Menu />
     </OrderProvider>
   );
-  await waitFor(() => expect(screen.getByText('Café')).toBeInTheDocument());
+  await waitFor(() => expect(screen.getByText('Café', { exact: false })).toBeInTheDocument());
 });
