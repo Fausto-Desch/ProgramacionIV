@@ -1,5 +1,8 @@
 const fs = require("fs");
 const fileType = require("file-type");
+const uploadMiddleware = require("../config/multer");
+
+exports.uploadMiddleware = uploadMiddleware;
 
 exports.uploadFile = async (req, res) => {
   if (!req.file) {

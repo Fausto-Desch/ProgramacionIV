@@ -37,11 +37,24 @@ router.post('/transfer', validateOrigin, csrfProtection, vulnerabilityController
 router.get("/file", vulnerabilityController.readFile);
 
 // File Upload seguro
-router.post("/upload", upload, uploadFile);
+router.post("/upload", uploadMiddleware, uploadFile);
 
 // Handler de errores de Multer / Busboy
 router.use((err, req, res, next) => {
-  if (err && typeof err.message === "string" && err.message.includes("Malformed part header")) {
+  // If this is not an upload-related error, forward to next error handler
+  const isUploadError = err && (
+    (typeof err.message === 'string' && (
+      err.message.includes('Malformed part header') ||
+      err.message === 'Invalid filename' ||
+      err.message === 'File type not allowed'
+    )) || err.code === 'LIMIT_FILE_SIZE'
+  );
+
+  if (!isUploadError) {
+    return next(err);
+  }
+
+  if (typeof err.message === "string" && err.message.includes("Malformed part header")) {
     return res.status(400).json({ error: "Invalid filename" });
   }
 

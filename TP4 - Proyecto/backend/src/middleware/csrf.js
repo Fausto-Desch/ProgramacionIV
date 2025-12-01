@@ -21,7 +21,7 @@ const forceSameSiteCookie = (req, res, next) => {
 
 // Middleware de manejo de errores CSRF
 const csrfErrorHandler = (err, req, res, next) => {
-  if (err.code === 'EBADCSRFTOKEN') {
+  if (err && err.code === 'EBADCSRFTOKEN') {
     return res.status(403).json({ 
       error: 'Fallo en validacion de token CSRF',
       message: 'Token CSRF inválido'
